@@ -22,15 +22,9 @@ export class CountriesService {
       if (cache !== undefined) return cache;
 
       const dbData = await this.countryRepository.find();
-      // if no data in db, fetch from api and save to db
-      if (!dbData || dbData.length === 0) {
-        const res: CountryEntity[] = await this.fetchCountries();
-        await this.countryRepository.save(res);
-        await this.cacheManager.set('countries', res, { ttl: 3600 });
-        return res;
+      if (dbData.length > 0) {
+        await this.cacheManager.set('countries', dbData);
       }
-
-      await this.cacheManager.set('countries', dbData);
       return dbData;
     } catch (error) {
       console.log(error);
@@ -44,6 +38,7 @@ export class CountriesService {
           'https://kayaposoft.com/enrico/json/v2.0?action=getSupportedCountries',
         ),
       );
+      await this.countryRepository.save(data.data);
       return data.data;
     } catch (error) {
       console.log(error);
