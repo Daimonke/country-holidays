@@ -1,7 +1,7 @@
 import { HttpModule } from '@nestjs/axios';
 import { CacheModule, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CountriesController } from './controllers/country.controller';
+import { CountriesController } from './controllers/countries.controller';
 import { CountryEntity } from './models/country.entity';
 import { CountriesService } from './services/countries.service';
 
