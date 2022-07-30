@@ -14,11 +14,34 @@ describe('AppController (e2e)', () => {
     app = moduleFixture.createNestApplication();
     await app.init();
   });
+  afterEach(async () => {
+    await app.close();
+  });
 
-  it('/ (GET)', () => {
+  it('/countries (GET) 200', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get('/countries')
       .expect(200)
-      .expect('Hello World!');
+      .expect('Content-Type', /json/)
+      .expect((res) => {
+        expect(res.body.length).toBeGreaterThan(1);
+      });
+  });
+  it('/holidays (GET) 200', () => {
+    return request(app.getHttpServer())
+      .get('/holidays')
+      .query({ countryCode: 'est', year: '2020' })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .expect((res) => {
+        expect(res.body.length).toBeGreaterThan(1);
+      });
+  });
+  it('/holidays (GET) 400', () => {
+    return request(app.getHttpServer())
+      .get('/holidays')
+      .query({ countryCode: 'est' })
+      .expect(400)
+      .expect('Content-Type', /json/);
   });
 });
