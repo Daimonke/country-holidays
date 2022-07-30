@@ -17,6 +17,8 @@ export class CountriesService {
 
   async getCountries(): Promise<CountryEntity[]> {
     try {
+      // get today date
+
       // get cached countries if available
       const cache: CountryEntity[] = await this.cacheManager.get('countries');
       if (cache !== undefined) return cache;
@@ -38,6 +40,8 @@ export class CountriesService {
           'https://kayaposoft.com/enrico/json/v2.0?action=getSupportedCountries',
         ),
       );
+      // deletes all countries before saving new in case of duplication
+      await this.countryRepository.delete({});
       await this.countryRepository.save(data.data);
       return data.data;
     } catch (error) {

@@ -14,8 +14,9 @@ export class CountriesController {
         if (newCountries.length === undefined || newCountries.length === 0) {
           throw new HttpException('No data found', 404);
         }
+        return newCountries;
       }
-      return await this.countriesService.getCountries();
+      return countries;
     } catch (error) {
       throw new HttpException(error.message, error.status);
     }
