@@ -17,8 +17,6 @@ export class CountriesService {
 
   async getCountries(): Promise<CountryEntity[]> {
     try {
-      // get today date
-
       // get cached countries if available
       const cache: CountryEntity[] = await this.cacheManager.get('countries');
       if (cache !== undefined) return cache;
