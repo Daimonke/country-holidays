@@ -7,8 +7,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('countries example')
-    .setDescription('The countries API description')
+    .setTitle('Holidays API')
+    .setDescription('Get all holidays for a country/year, check specific dates')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);

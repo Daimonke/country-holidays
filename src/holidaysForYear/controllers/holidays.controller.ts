@@ -7,10 +7,14 @@ export class HolidaysController {
 
   @Get()
   async getHolidays(
-    @Query('year') year: string,
-    @Query('countryCode') country: string,
+    @Query('year (e.g. 2022)') queryYear: string,
+    @Query('countryCode (e.g. ukr)') queryCountry: string,
   ) {
     try {
+      const [year, country] = [
+        queryYear.toLowerCase(),
+        queryCountry.toLowerCase(),
+      ];
       if (!year || !country) {
         throw new HttpException('Missing query params', 400);
       }

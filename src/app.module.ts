@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppController } from './app.controller';
 import { CountriesModule } from './countries/countries.module';
 import { HolidaysModule } from './holidaysForYear/holidays.module';
 
@@ -21,5 +22,6 @@ import { HolidaysModule } from './holidaysForYear/holidays.module';
     CountriesModule,
     HolidaysModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule {}
