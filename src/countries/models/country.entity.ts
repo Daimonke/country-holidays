@@ -8,23 +8,23 @@ export class CountryEntity {
   @Column()
   countryCode: string;
 
-  @Column({ type: 'simple-array', nullable: false, default: '{}' })
+  @Column({ type: 'simple-array', default: '[]' })
   regions: string[];
 
-  @Column({ type: 'simple-array', nullable: false, default: '{}' })
+  @Column({ type: 'simple-array', default: '[]' })
   holidayTypes: string[];
 
   @Column()
   fullName: string;
 
-  @Column({ type: 'jsonb', nullable: false })
+  @Column({ type: 'jsonb' })
   fromDate: {
     day: number;
     month: number;
     year: number;
   };
 
-  @Column({ type: 'jsonb', nullable: false })
+  @Column({ type: 'jsonb' })
   toDate: {
     day: number;
     month: number;
