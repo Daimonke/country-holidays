@@ -29,7 +29,7 @@ export class HolidayEntity {
     text: string;
   }[];
 
-  @Column({ type: 'simple-array', nullable: true })
+  @Column({ type: 'jsonb', nullable: true })
   note?: {
     lang: string;
     text: string;

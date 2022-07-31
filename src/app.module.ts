@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { CountriesModule } from './countries/countries.module';
 import { DayModule } from './dayStatus/day.module';
 import { HolidaysModule } from './holidaysForYear/holidays.module';
+import { FreeDaysModule } from './maxFreeDays/freeDays.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { HolidaysModule } from './holidaysForYear/holidays.module';
     CountriesModule,
     HolidaysModule,
     DayModule,
+    FreeDaysModule,
   ],
   controllers: [AppController],
 })
