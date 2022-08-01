@@ -11,19 +11,15 @@ export class FreeDaysController {
     @Query('countryCode (e.g. ukr)') queryCountry: string,
   ) {
     try {
-      console.log(1);
       const [qyear, qcountry] = [queryYear, queryCountry.toLowerCase()];
       const holidays = await this.freeDays.getHolidays(qyear, qcountry);
-      console.log(2);
       const countedChains = this.freeDays.countHolidaysChain(holidays);
-      console.log(3);
       let freeDaysInARow = {
         days: 0,
         from: '',
         to: '',
       };
       for (const holiday of countedChains) {
-        console.log(4);
         let negRunning = true;
         let posRunning = true;
         let maxFreeDays = holiday.count;
@@ -55,7 +51,6 @@ export class FreeDaysController {
             posRunning = false;
           }
         }
-        console.log(5);
         if (maxFreeDays > freeDaysInARow.days) {
           freeDaysInARow = {
             days: maxFreeDays,
@@ -70,7 +65,6 @@ export class FreeDaysController {
           };
         }
       }
-      console.log(6);
       return freeDaysInARow;
     } catch (error) {
       throw new HttpException(error, 500);
