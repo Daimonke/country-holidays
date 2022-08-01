@@ -13,7 +13,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
   // on startup - check if countries are in the database and if not, fetch them
   await app.get(CountriesController).getCountries();
 }
