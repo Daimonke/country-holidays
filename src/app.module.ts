@@ -14,7 +14,7 @@ import { FreeDaysModule } from './maxFreeDays/freeDays.module';
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: process.env.POSTGRES_URL,
+      url: process.env.DATABASE_URL,
       ssl: {
         rejectUnauthorized: false,
       },
