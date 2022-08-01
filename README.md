@@ -2,6 +2,10 @@
 
 Holidays api made with [NestJS](https://github.com/nestjs/nest) framework.
 
+## Live preview
+
+[Click to preview live app](https://country-holidays.herokuapp.com)
+
 ## Running the app
 
 ```bash
