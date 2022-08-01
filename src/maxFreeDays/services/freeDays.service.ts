@@ -1,5 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import * as moment from 'moment';
 import { DayController } from '../../dayStatus/controllers/day.controller';
 import { DayEntity } from '../../dayStatus/models/day.entity';
 import { HolidaysController } from '../../holidaysForYear/controllers/holidays.controller';
@@ -61,9 +62,10 @@ export class FreeDaysService {
     date: { year: number; month: number; day: number },
     country: string,
   ): Promise<{ status: DayEntity['status'] }> {
-    return await this.dayController.getDayStatus(
-      `${date.year}-${date.month}-${date.day}`,
-      country,
+    const { year, month, day } = date;
+    const string = moment(`${year}-${month}-${day}`, 'YYYY-MM-DD').format(
+      'YYYY-MM-DD',
     );
+    return await this.dayController.getDayStatus(string, country);
   }
 }

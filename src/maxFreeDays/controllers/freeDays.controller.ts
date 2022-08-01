@@ -1,4 +1,5 @@
 import { Controller, Get, HttpException, Query } from '@nestjs/common';
+import * as moment from 'moment';
 import { FreeDaysService } from '../services/freeDays.service';
 
 @Controller('maxFreeDays')
@@ -10,15 +11,19 @@ export class FreeDaysController {
     @Query('countryCode (e.g. ukr)') queryCountry: string,
   ) {
     try {
+      console.log(1);
       const [qyear, qcountry] = [queryYear, queryCountry.toLowerCase()];
       const holidays = await this.freeDays.getHolidays(qyear, qcountry);
+      console.log(2);
       const countedChains = this.freeDays.countHolidaysChain(holidays);
+      console.log(3);
       let freeDaysInARow = {
         days: 0,
         from: '',
         to: '',
       };
       for (const holiday of countedChains) {
+        console.log(4);
         let negRunning = true;
         let posRunning = true;
         let maxFreeDays = holiday.count;
@@ -50,15 +55,22 @@ export class FreeDaysController {
             posRunning = false;
           }
         }
-
+        console.log(5);
         if (maxFreeDays > freeDaysInARow.days) {
           freeDaysInARow = {
             days: maxFreeDays,
-            from: `${year}-${month}-${day + negCount + 1}`,
-            to: `${year}-${month}-${day + posCount - 1}`,
+            from: moment(
+              `${year}-${month}-${day + negCount + 1}`,
+              'YYYY-MM-DD',
+            ).format('YYYY-MM-DD'),
+            to: moment(
+              `${year}-${month}-${day + posCount - 1}`,
+              'YYYY-MM-DD',
+            ).format('YYYY-MM-DD'),
           };
         }
       }
+      console.log(6);
       return freeDaysInARow;
     } catch (error) {
       throw new HttpException(error, 500);
