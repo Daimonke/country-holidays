@@ -6,6 +6,8 @@ import { DayEntity } from '../models/day.entity';
 import { DayService } from '../services/day.service';
 import { DayController } from './day.controller';
 
+jest.setTimeout(30000);
+
 describe('DayController', () => {
   let controller: DayController;
 

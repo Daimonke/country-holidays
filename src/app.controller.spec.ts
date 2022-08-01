@@ -1,6 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 
+jest.setTimeout(30000);
+
 describe('AppController', () => {
   let controller: AppController;
 

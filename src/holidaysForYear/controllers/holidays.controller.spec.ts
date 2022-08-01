@@ -7,6 +7,8 @@ import { HolidayEntity } from '../models/holiday.entity';
 import { HolidaysService } from '../services/holidays.service';
 import { HolidaysController } from './holidays.controller';
 
+jest.setTimeout(30000);
+
 describe('HolidaysController', () => {
   let holidaysService: HolidaysService;
   let holidaysController: HolidaysController;

@@ -7,6 +7,8 @@ import { CountryEntity } from '../models/country.entity';
 import { CountriesService } from '../services/countries.service';
 import { CountriesController } from './countries.controller';
 
+jest.setTimeout(30000);
+
 describe('CountriesController', () => {
   let countriesService: CountriesService;
   let countriesController: CountriesController;

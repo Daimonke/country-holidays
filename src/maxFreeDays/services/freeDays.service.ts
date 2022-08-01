@@ -1,10 +1,10 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { DayController } from 'src/dayStatus/controllers/day.controller';
-import { DayEntity } from 'src/dayStatus/models/day.entity';
-import { HolidaysController } from 'src/holidaysForYear/controllers/holidays.controller';
-import { HolidayEntity } from 'src/holidaysForYear/models/holiday.entity';
-import { Holiday } from 'src/holidaysForYear/models/holiday.interface';
+import { DayController } from '../../dayStatus/controllers/day.controller';
+import { DayEntity } from '../../dayStatus/models/day.entity';
+import { HolidaysController } from '../../holidaysForYear/controllers/holidays.controller';
+import { HolidayEntity } from '../../holidaysForYear/models/holiday.entity';
+import { Holiday } from '../../holidaysForYear/models/holiday.interface';
 
 @Injectable()
 export class FreeDaysService {
