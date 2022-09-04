@@ -18,7 +18,7 @@ export class CountriesService {
   async getCountries(): Promise<CountryEntity[]> {
     try {
       // get cached countries if available
-      const cache: CountryEntity[] = await this.cacheManager.get('countries');
+      const cache: CountryEntity[] = await this.cacheManager.get('countriesa');
       if (cache !== undefined) return cache;
 
       const dbData = await this.countryRepository.find();
@@ -27,7 +27,7 @@ export class CountriesService {
       }
       return dbData;
     } catch (error) {
-      console.log(error);
+      return error;
     }
   }
 
@@ -43,7 +43,7 @@ export class CountriesService {
       await this.countryRepository.save(data.data);
       return data.data;
     } catch (error) {
-      console.log(error);
+      return error;
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Controller, Get, HttpException, Query } from '@nestjs/common';
 import { DayService } from '../services/day.service';
 import * as moment from 'moment';
-import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 import DayDTO from '../models/day.dto';
 
 @Controller('day')

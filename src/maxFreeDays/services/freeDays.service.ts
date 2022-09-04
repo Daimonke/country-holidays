@@ -62,10 +62,14 @@ export class FreeDaysService {
     date: { year: number; month: number; day: number },
     country: string,
   ): Promise<{ status: DayEntity['status'] }> {
-    const { year, month, day } = date;
-    const string = moment(`${year}-${month}-${day}`, 'YYYY-MM-DD').format(
-      'YYYY-MM-DD',
-    );
-    return await this.dayController.getDayStatus(string, country);
+    try {
+      const { year, month, day } = date;
+      const string = moment(`${year}-${month}-${day}`, 'YYYY-MM-DD').format(
+        'YYYY-MM-DD',
+      );
+      return await this.dayController.getDayStatus(string, country);
+    } catch (err) {
+      return err;
+    }
   }
 }
