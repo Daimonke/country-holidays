@@ -1,14 +1,30 @@
 import { Controller, Get, HttpException, Query } from '@nestjs/common';
 import { DayService } from '../services/day.service';
 import * as moment from 'moment';
+import { ApiBody, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import DayDTO from '../models/day.dto';
 
 @Controller('day')
 export class DayController {
   constructor(private readonly dayService: DayService) {}
+  @ApiResponse({
+    status: 200,
+    type: DayDTO,
+    isArray: true,
+    description: 'Returns day status',
+  })
+  @ApiQuery({
+    name: 'date',
+    example: '2022-02-19',
+  })
+  @ApiQuery({
+    name: 'countryCode',
+    example: 'ltu',
+  })
   @Get()
   async getDayStatus(
-    @Query('date (e.g. 2022-07-20)') queryDate: string,
-    @Query('countryCode (e.g. ukr)') queryCountry: string,
+    @Query('date') queryDate: string,
+    @Query('countryCode') queryCountry: string,
   ) {
     try {
       if (!moment(queryDate, 'YYYY-MM-DD', true).isValid()) {

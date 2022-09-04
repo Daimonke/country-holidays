@@ -1,5 +1,5 @@
 import { Controller, Get, HttpException, Query } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { HolidaysService } from '../services/holidays.service';
 import { Holiday } from '../models/holiday.interface';
 import HolidayDTO from '../models/holiday.dto';
@@ -12,6 +12,14 @@ export class HolidaysController {
     type: HolidayDTO,
     isArray: true,
     description: 'Returns holidays for a country',
+  })
+  @ApiQuery({
+    name: 'year',
+    example: '2022',
+  })
+  @ApiQuery({
+    name: 'countryCode',
+    example: 'ltu',
   })
   @Get()
   async getHolidays(

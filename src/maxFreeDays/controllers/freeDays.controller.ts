@@ -1,14 +1,30 @@
 import { Controller, Get, HttpException, Query } from '@nestjs/common';
+import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 import * as moment from 'moment';
+import FreeDaysDTO from '../models/freeDays.dto';
 import { FreeDaysService } from '../services/freeDays.service';
 
 @Controller('maxFreeDays')
 export class FreeDaysController {
   constructor(private readonly freeDays: FreeDaysService) {}
+  @ApiResponse({
+    status: 200,
+    type: FreeDaysDTO,
+    isArray: true,
+    description: 'Returns maximum freedays in a row for a country and a year',
+  })
+  @ApiQuery({
+    name: 'year',
+    example: '2022',
+  })
+  @ApiQuery({
+    name: 'countryCode',
+    example: 'ltu',
+  })
   @Get()
   async getMaxFreeDays(
-    @Query('year (e.g. 2022)') queryYear: string,
-    @Query('countryCode (e.g. ukr)') queryCountry: string,
+    @Query('year') queryYear: string,
+    @Query('countryCode') queryCountry: string,
   ) {
     try {
       const [qyear, qcountry] = [queryYear, queryCountry.toLowerCase()];
