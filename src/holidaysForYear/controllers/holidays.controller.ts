@@ -1,15 +1,23 @@
 import { Controller, Get, HttpException, Query } from '@nestjs/common';
+import { ApiResponse } from '@nestjs/swagger';
 import { HolidaysService } from '../services/holidays.service';
+import { Holiday } from '../models/holiday.interface';
+import HolidayDTO from '../models/holiday.dto';
 
 @Controller('holidays')
 export class HolidaysController {
   constructor(private readonly holidaysService: HolidaysService) {}
-
+  @ApiResponse({
+    status: 200,
+    type: HolidayDTO,
+    isArray: true,
+    description: 'Returns holidays for a country',
+  })
   @Get()
   async getHolidays(
-    @Query('year (e.g. 2022)') queryYear: string,
-    @Query('countryCode (e.g. ukr)') queryCountry: string,
-  ) {
+    @Query('year') queryYear: string,
+    @Query('countryCode') queryCountry: string,
+  ): Promise<Holiday[]> {
     try {
       const [year, country] = [
         queryYear.toLowerCase(),
