@@ -2,6 +2,7 @@ import { Controller, Get, HttpException, Query } from '@nestjs/common';
 import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 import * as moment from 'moment';
 import FreeDaysDTO from '../models/freeDays.dto';
+import { FreeDaysInterface } from '../models/freeDays.interface';
 import { FreeDaysService } from '../services/freeDays.service';
 
 @Controller('maxFreeDays')
@@ -25,11 +26,12 @@ export class FreeDaysController {
   async getMaxFreeDays(
     @Query('year') queryYear: string,
     @Query('countryCode') queryCountry: string,
-  ) {
+  ): Promise<FreeDaysInterface> {
     try {
       const [qyear, qcountry] = [queryYear, queryCountry.toLowerCase()];
       const holidays = await this.freeDays.getHolidays(qyear, qcountry);
       const countedChains = this.freeDays.countHolidaysChain(holidays);
+      console.log(countedChains);
       let freeDaysInARow = {
         days: 0,
         from: '',

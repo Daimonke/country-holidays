@@ -1,6 +1,7 @@
 import { Controller, Get, HttpException } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import CountryDTO from '../models/country.dto';
+import { Country } from '../models/country.interface';
 import { CountriesService } from '../services/countries.service';
 
 @Controller('countries')
@@ -13,7 +14,7 @@ export class CountriesController {
     description: 'Returns available countries list',
   })
   @Get()
-  async getCountries() {
+  async getCountries(): Promise<Country[]> {
     try {
       const countries = await this.countriesService.getCountries();
       if (!countries || countries.length === 0) {
