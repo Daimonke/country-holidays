@@ -28,8 +28,8 @@ export class DayService {
         .getOne();
 
       return day;
-    } catch (err) {
-      return err;
+    } catch (error) {
+      throw new Error(error);
     }
   }
 
@@ -44,8 +44,8 @@ export class DayService {
         await this.saveDay(date, country, 'holiday');
       }
       return response.data;
-    } catch (err) {
-      return err;
+    } catch (error) {
+      throw new Error(error);
     }
   }
   async fetchWorkDay(
@@ -59,8 +59,8 @@ export class DayService {
         await this.saveDay(date, country, 'workday');
       }
       return response.data;
-    } catch (err) {
-      return err;
+    } catch (error) {
+      throw new Error(error);
     }
   }
 
@@ -80,8 +80,8 @@ export class DayService {
         status,
       });
       return day;
-    } catch (err) {
-      return err;
+    } catch (error) {
+      throw new Error(error);
     }
   }
 }

@@ -55,7 +55,7 @@ export class HolidaysService {
       }
       return dataWithoutNulls;
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   }
 
@@ -79,7 +79,7 @@ export class HolidaysService {
       }
       return data;
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   }
 }

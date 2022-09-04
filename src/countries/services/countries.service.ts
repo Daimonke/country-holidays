@@ -18,16 +18,17 @@ export class CountriesService {
   async getCountries(): Promise<CountryEntity[]> {
     try {
       // get cached countries if available
-      const cache: CountryEntity[] = await this.cacheManager.get('countriesa');
+      const cache: CountryEntity[] = await this.cacheManager.get('countries');
       if (cache !== undefined) return cache;
 
       const dbData = await this.countryRepository.find();
+
       if (dbData.length > 0) {
         await this.cacheManager.set('countries', dbData);
       }
-      return dbData;
+      return [];
     } catch (error) {
-      return error;
+      throw new Error(error);
     }
   }
 
@@ -43,7 +44,7 @@ export class CountriesService {
       await this.countryRepository.save(data.data);
       return data.data;
     } catch (error) {
-      return error;
+      throw new Error(error);
     }
   }
 }

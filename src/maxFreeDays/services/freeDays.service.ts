@@ -14,8 +14,12 @@ export class FreeDaysService {
     private readonly dayController: DayController,
   ) {}
   async getHolidays(year: string, country: string): Promise<HolidayEntity[]> {
-    const holidays = await this.holidaysController.getHolidays(year, country);
-    return holidays;
+    try {
+      const holidays = await this.holidaysController.getHolidays(year, country);
+      return holidays;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   nextIsHoliday = (
