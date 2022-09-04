@@ -53,19 +53,14 @@ export class FreeDaysService {
     }
     return {
       count: daysInARow,
-      first_day: moment(
-        `${date.year}-${date.month}-${date.day - (weekendsBeforeCount - 1)}`,
-        'YYYY-MM-DD',
-      ).format('YYYY-MM-DD'),
-      last_day: moment(
-        `${date.year}-${date.month}-${
-          date.day + holiday.count - 1 + weekendsAfterCount
-        }`,
-        'YYYY-MM-DD',
-      ).format('YYYY-MM-DD'),
+      first_day: moment(`${date.year}-${date.month}-${date.day}`, 'YYYY-MM-DD')
+        .subtract(weekendsBeforeCount - 1, 'day')
+        .format('YYYY-MM-DD'),
+      last_day: moment(`${date.year}-${date.month}-${date.day}`, 'YYYY-MM-DD')
+        .add(holiday.count - 1 + weekendsAfterCount, 'day')
+        .format('YYYY-MM-DD'),
     };
   }
-  // omit dayofweek from date
   getLongestHoliday(holidays: HolidayEntity[]): {
     count: number;
     first_day: string;
@@ -109,12 +104,16 @@ export class FreeDaysService {
     mappedHolidays.forEach((item) => {
       const longestHol = this.getMaxDays(item);
       if (longestHol.count > longestHoliday.count) {
-        console.log(longestHol);
-        console.log(longestHoliday);
         longestHoliday = longestHol;
       }
     });
-    console.log(longestHoliday);
+    if (longestHoliday.count < 2) {
+      return {
+        count: 2,
+        first_day: 'Any saturday',
+        last_day: 'Any sunday',
+      };
+    }
     return longestHoliday;
   }
   isWeekend(day: number) {
