@@ -16,7 +16,7 @@ export class DayService {
   async getStatus(
     date: { year: number; month: number; day: number },
     country: string,
-  ): Promise<any> {
+  ): Promise<null | { status: DayEntity['status'] }> {
     try {
       const day = await this.dayRepository
         .createQueryBuilder('day')

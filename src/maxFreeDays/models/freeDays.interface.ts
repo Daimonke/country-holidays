@@ -1,5 +1,5 @@
 export interface FreeDaysInterface {
-  days: number;
-  from: string;
-  to: string;
+  count: number;
+  first_day: string;
+  last_day: string;
 }

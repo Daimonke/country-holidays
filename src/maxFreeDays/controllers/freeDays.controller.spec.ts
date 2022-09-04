@@ -11,7 +11,7 @@ import { DayController } from '../../dayStatus/controllers/day.controller';
 import { DayService } from '../../dayStatus/services/day.service';
 import { DayEntity } from '../../dayStatus/models/day.entity';
 import { CacheModule } from '@nestjs/common';
-
+jest.setTimeout(30000);
 describe('freeDaysController', () => {
   let controller: FreeDaysController;
 
@@ -43,9 +43,9 @@ describe('freeDaysController', () => {
 
   it('should return max free days for given country and a year', async () => {
     expect(await controller.getMaxFreeDays('2022', 'ltu')).toEqual({
-      days: 3,
-      from: expect.any(String),
-      to: expect.any(String),
+      count: 3,
+      first_day: expect.any(String),
+      last_day: expect.any(String),
     });
   });
 });

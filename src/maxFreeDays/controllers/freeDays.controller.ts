@@ -1,6 +1,5 @@
 import { Controller, Get, HttpException, Query } from '@nestjs/common';
 import { ApiQuery, ApiResponse } from '@nestjs/swagger';
-import * as moment from 'moment';
 import FreeDaysDTO from '../models/freeDays.dto';
 import { FreeDaysInterface } from '../models/freeDays.interface';
 import { FreeDaysService } from '../services/freeDays.service';
@@ -12,7 +11,7 @@ export class FreeDaysController {
     status: 200,
     type: FreeDaysDTO,
     isArray: true,
-    description: 'Returns maximum freedays in a row for a country and a year',
+    description: 'Returns maximum free days in a row for a country and a year',
   })
   @ApiQuery({
     name: 'year',
@@ -30,62 +29,10 @@ export class FreeDaysController {
     try {
       const [qyear, qcountry] = [queryYear, queryCountry.toLowerCase()];
       const holidays = await this.freeDays.getHolidays(qyear, qcountry);
-      const countedChains = this.freeDays.countHolidaysChain(holidays);
-      console.log(countedChains);
-      let freeDaysInARow = {
-        days: 0,
-        from: '',
-        to: '',
-      };
-      for (const holiday of countedChains) {
-        let negRunning = true;
-        let posRunning = true;
-        let maxFreeDays = holiday.count;
-        let posCount = holiday.count;
-        let negCount = -1;
-        const { year, month, day } = holiday.date;
-
-        while (negRunning) {
-          const { status } = await this.freeDays.isDayFree(
-            { year, month, day: day + negCount },
-            qcountry,
-          );
-          if (status === 'freeday' || status === 'holiday') {
-            negCount--;
-            maxFreeDays++;
-          } else {
-            negRunning = false;
-          }
-        }
-        while (posRunning) {
-          const { status } = await this.freeDays.isDayFree(
-            { year, month, day: day + posCount },
-            qcountry,
-          );
-          if (status === 'freeday' || status === 'holiday') {
-            posCount++;
-            maxFreeDays++;
-          } else {
-            posRunning = false;
-          }
-        }
-        if (maxFreeDays > freeDaysInARow.days) {
-          freeDaysInARow = {
-            days: maxFreeDays,
-            from: moment(
-              `${year}-${month}-${day + negCount + 1}`,
-              'YYYY-MM-DD',
-            ).format('YYYY-MM-DD'),
-            to: moment(
-              `${year}-${month}-${day + posCount - 1}`,
-              'YYYY-MM-DD',
-            ).format('YYYY-MM-DD'),
-          };
-        }
-      }
-      return freeDaysInARow;
+      const longestHoliday = this.freeDays.getLongestHoliday(holidays);
+      return longestHoliday;
     } catch (error) {
-      throw new HttpException(error, 500);
+      throw new HttpException(error.message, error.status);
     }
   }
 }

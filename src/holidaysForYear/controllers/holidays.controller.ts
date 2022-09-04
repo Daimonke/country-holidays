@@ -27,14 +27,13 @@ export class HolidaysController {
     @Query('countryCode') queryCountry: string,
   ): Promise<Holiday[]> {
     try {
+      if (!queryYear || !queryCountry) {
+        throw new HttpException('Missing query params', 400);
+      }
       const [year, country] = [
         queryYear.toLowerCase(),
         queryCountry.toLowerCase(),
       ];
-      if (!year || !country) {
-        throw new HttpException('Missing query params', 400);
-      }
-
       const holidays = await this.holidaysService.getHolidays(year, country);
       if (!holidays || holidays.length === 0) {
         const newData = await this.holidaysService.fetchHolidays(year, country);

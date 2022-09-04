@@ -38,13 +38,24 @@ export class DayController {
         month,
         day,
       };
-      const status = await this.dayService.getStatus(date, country);
-      if (status) return status;
-      const isHoliday = await this.dayService.fetchHoliday(date, country);
-      if (isHoliday.isPublicHoliday) return { status: 'holiday' };
-      const isWorkDay = await this.dayService.fetchWorkDay(date, country);
-      if (isWorkDay.isWorkDay) return { status: 'workday' };
-      await this.dayService.saveDay(date, country, 'freeday');
+
+      const status = await Promise.all([
+        await this.dayService.getStatus(date, country),
+        await this.dayService.fetchHoliday(date, country),
+        await this.dayService.fetchWorkDay(date, country),
+      ]);
+      if (status[0] !== null) {
+        return { status: status[0].status };
+      }
+      if (status[1].isPublicHoliday) {
+        await this.dayService.saveDay(date, country, 'holiday');
+        return { status: 'holiday' };
+      }
+      if (status[2].isWorkDay) {
+        await this.dayService.saveDay(date, country, 'workday');
+        return { status: 'workday' };
+      }
+      this.dayService.saveDay(date, country, 'freeday');
       return { status: 'freeday' };
     } catch (error) {
       throw new HttpException(error.message, error.status);
